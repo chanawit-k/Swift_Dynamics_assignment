@@ -20,4 +20,13 @@ output = list can not blank
 class Solution:
 
     def find_max_index(self, numbers: list) -> int | str:
-        pass
+        if len(numbers) < 1:
+            print('list can not blank')
+
+        max_value = numbers[0]
+        index_max_value = 0
+        for idx, value in enumerate(numbers[1:]):
+            if value > max_value:
+                max_value = value
+                index_max_value = idx + 1
+        return index_max_value
