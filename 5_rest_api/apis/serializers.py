@@ -10,21 +10,42 @@ class StudentSerializer(serializers.ModelSerializer):
 
 class SchoolSerializer(serializers.ModelSerializer):
     """Serializer for School."""
-    number_classrooms = serializers.SerializerMethodField()
-    number_teacher = serializers.SerializerMethodField()
-    number_student = serializers.SerializerMethodField()
 
     class Meta:
         model = School
-        fields = ['id', 'name', 'abbreviation', 'address',
-                  'number_classrooms', 'number_teacher', 'number_student']
-        read_only_fields = ['id', 'num_classrooms']
+        fields = ['id', 'name', 'abbreviation', 'address']
+        read_only_fields = ['id']
 
     def get_number_classrooms(self, obj):
         return obj.classrooms.count()
 
     def get_number_teacher(self, obj):
-        return Teacher.objects.filter(classrooms__schools=obj).distinct().count()
+        return Teacher.objects.filter(classrooms__schools=obj).distinct()\
+                .count()
 
     def get_number_student(self, obj):
-        return Student.objects.filter(classroom__schools=obj).distinct().count()
+        return Student.objects.filter(classroom__schools=obj).distinct()\
+                .count()
+
+
+class SchoolDetailSerializer(SchoolSerializer):
+    """Serializer for School Detail view."""
+    number_classrooms = serializers.SerializerMethodField()
+    number_teacher = serializers.SerializerMethodField()
+    number_student = serializers.SerializerMethodField()
+
+    class Meta(SchoolSerializer.Meta):
+        fields = SchoolSerializer.Meta.fields + ['number_classrooms',
+                                                 'number_teacher',
+                                                 'number_student']
+
+    def get_number_classrooms(self, obj):
+        return obj.classrooms.count()
+
+    def get_number_teacher(self, obj):
+        return Teacher.objects.filter(classrooms__schools=obj).distinct()\
+                .count()
+
+    def get_number_student(self, obj):
+        return Student.objects.filter(classroom__schools=obj).distinct()\
+                .count()
