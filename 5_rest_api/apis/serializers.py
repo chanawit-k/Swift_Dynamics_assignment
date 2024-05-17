@@ -1,5 +1,5 @@
 from rest_framework import serializers  # type: ignore
-from apis.models import School, Teacher, Student
+from apis.models import School, Teacher, Student, ClassRoom
 
 
 class StudentSerializer(serializers.ModelSerializer):
@@ -49,3 +49,9 @@ class SchoolDetailSerializer(SchoolSerializer):
     def get_number_student(self, obj):
         return Student.objects.filter(classroom__schools=obj).distinct()\
                 .count()
+
+
+class ClassRoomSerializer(SchoolSerializer):
+    class Meta:
+        model = ClassRoom
+        fields = ['id', 'year', 'section']

@@ -1,5 +1,5 @@
 from django_filters import rest_framework as filters  # type: ignore
-from .models import School
+from .models import School, ClassRoom
 
 
 class SchoolFilter(filters.FilterSet):
@@ -8,3 +8,12 @@ class SchoolFilter(filters.FilterSet):
     class Meta:
         model = School
         fields = ['name']
+
+
+class ClassRoomFilter(filters.FilterSet):
+    school = filters.ModelChoiceFilter(queryset=School.objects.all(),
+                                       field_name='schools')
+
+    class Meta:
+        model = ClassRoom
+        fields = ['school']

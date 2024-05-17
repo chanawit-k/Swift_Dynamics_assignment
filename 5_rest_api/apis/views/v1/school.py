@@ -1,14 +1,16 @@
 from rest_framework import viewsets  # type: ignore
-from apis import serializers
-from apis.models import School
-from apis.filters import SchoolFilter
+from apis import serializers, filters
+from apis.models import (
+    School,
+    ClassRoom
+)
 
 
 class SchoolViewSet(viewsets.ModelViewSet):
     """View for manage recipe APIs."""
     serializer_class = serializers.SchoolDetailSerializer
     queryset = School.objects.all()
-    filterset_class = SchoolFilter
+    filterset_class = filters.SchoolFilter
     # authentication_classes = [TokenAuthentication]
     # permission_classes = [IsAuthenticated]
 
@@ -25,3 +27,10 @@ class SchoolViewSet(viewsets.ModelViewSet):
     # def perform_create(self, serializer):
     #     """Create a new recipe."""
     #     serializer.save(user=self.request.user)
+
+
+class ClassRoomViewSet(viewsets.ModelViewSet):
+    """View for managing classroom APIs."""
+    serializer_class = serializers.ClassRoomSerializer
+    queryset = ClassRoom.objects.all()
+    filterset_class = filters.ClassRoomFilter
