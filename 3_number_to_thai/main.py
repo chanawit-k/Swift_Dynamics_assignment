@@ -59,12 +59,6 @@ class Solution:
                         thai_number = f'{thai_number}{number_to_thai[number]}'
                 else:
                     thai_number = f'{thai_number}{number_to_thai[number]}'
-                # handdle
-                # elif digit_lenght != 8 and int(number) != 1:
-                #     thai_number = f'{thai_number}{number_to_thai[number]}'
-                # elif (int(number) != 1) or (digit_lenght == 1 and int(number) == 1):
-                #     thai_number = f'{thai_number}{number_to_thai[number]}'
-
             if (digit_lenght >= 2 and int(number) != 0) or digit_lenght == 7:
                 thai_number = f'{thai_number}{number_to_digit[str(digit_lenght)]}'
 
