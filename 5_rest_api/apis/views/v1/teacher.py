@@ -1,4 +1,4 @@
-from rest_framework import viewsets  # type: ignore
+from rest_framework import viewsets
 from apis import serializers, filters
 from apis.models import Teacher
 

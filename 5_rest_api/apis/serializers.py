@@ -1,6 +1,6 @@
-from rest_framework import serializers  # type: ignore
+from rest_framework import serializers
 from apis.models import School, Teacher, Student, ClassRoom
-from drf_spectacular.utils import extend_schema_field  # type: ignore
+from drf_spectacular.utils import extend_schema_field
 
 
 class ClassRoomSerializer(serializers.ModelSerializer):
