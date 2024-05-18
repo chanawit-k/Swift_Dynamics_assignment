@@ -1,10 +1,17 @@
 from django.db import models
 
 
+GENDER_CHOICES = [
+    ('M', 'Male'),
+    ('F', 'Female'),
+    ('O', 'Other'),
+]
+
+
 class Teacher(models.Model):
     first_name = models.CharField(max_length=225)
     last_name = models.CharField(max_length=225)
-    sex = models.CharField(max_length=225)
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
@@ -22,8 +29,10 @@ class ClassRoom(models.Model):
 class Student(models.Model):
     first_name = models.CharField(max_length=225)
     last_name = models.CharField(max_length=225)
-    sex = models.CharField(max_length=225)
-    classroom = models.ForeignKey(ClassRoom, blank=True, null=True, on_delete=models.CASCADE, related_name='students')
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
+    classroom = models.ForeignKey(ClassRoom, blank=True, null=True,
+                                  on_delete=models.CASCADE,
+                                  related_name='students')
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
