@@ -5,7 +5,7 @@ from apis.models import Student
 
 class StudentViewSet(viewsets.ModelViewSet):
     """View for managing classroom APIs."""
-    serializer_class = serializers.StudentSerializer
+    serializer_class = serializers.StudentDetailSerializer
     queryset = Student.objects.all()
     filterset_class = filters.StudentFilter
 
