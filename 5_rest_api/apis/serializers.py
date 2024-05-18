@@ -1,18 +1,33 @@
 from rest_framework import serializers  # type: ignore
 from apis.models import School, Teacher, Student, ClassRoom
-from drf_spectacular.utils import extend_schema_field
+from drf_spectacular.utils import extend_schema_field  # type: ignore
+
+
+class ClassRoomSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ClassRoom
+        fields = ['id', 'year', 'section']
 
 
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
-        fields = ['id', 'first_name', 'last_name', 'sex']
+        fields = ['id', 'first_name', 'last_name', 'gender']
 
 
 class TeacherSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Teacher
-        fields = ['id', 'first_name', 'last_name', 'sex']
+        fields = ['id', 'first_name', 'last_name', 'gender']
+
+
+class TeacherDetailSerializer(TeacherSerializer):
+    classrooms = ClassRoomSerializer(many=True, read_only=True)
+
+    class Meta(TeacherSerializer.Meta):
+        model = Teacher
+        fields = TeacherSerializer.Meta.fields + ['classrooms']
 
 
 class SchoolSerializer(serializers.ModelSerializer):
@@ -47,12 +62,6 @@ class SchoolDetailSerializer(SchoolSerializer):
     def get_number_student(self, obj):
         return Student.objects.filter(classroom__schools=obj).distinct()\
                 .count()
-
-
-class ClassRoomSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ClassRoom
-        fields = ['id', 'year', 'section']
 
 
 class ClassRoomDetailSerializer(ClassRoomSerializer):
