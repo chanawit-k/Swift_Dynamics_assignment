@@ -31,6 +31,12 @@ class SchoolViewSet(viewsets.ModelViewSet):
 
 class ClassRoomViewSet(viewsets.ModelViewSet):
     """View for managing classroom APIs."""
-    serializer_class = serializers.ClassRoomSerializer
+    serializer_class = serializers.ClassRoomDetailSerializer
     queryset = ClassRoom.objects.all()
     filterset_class = filters.ClassRoomFilter
+
+    def get_serializer_class(self):
+        """Return the serializer class for request."""
+        if self.action == 'list':
+            return serializers.ClassRoomSerializer
+        return self.serializer_class
