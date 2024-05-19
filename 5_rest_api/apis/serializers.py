@@ -16,7 +16,7 @@ class StudentSerializer(serializers.ModelSerializer):
 
 
 class StudentDetailSerializer(StudentSerializer):
-    classroom = ClassRoomSerializer()
+    classroom = ClassRoomSerializer(required=False)
 
     class Meta(StudentSerializer.Meta):
         fields = StudentSerializer.Meta.fields + ['classroom']
@@ -30,7 +30,7 @@ class TeacherSerializer(serializers.ModelSerializer):
 
 
 class TeacherDetailSerializer(TeacherSerializer):
-    classrooms = ClassRoomSerializer(many=True, read_only=True)
+    classrooms = ClassRoomSerializer(many=True, required=False, read_only=True)
 
     class Meta(TeacherSerializer.Meta):
         model = Teacher
@@ -79,3 +79,33 @@ class ClassRoomDetailSerializer(ClassRoomSerializer):
     class Meta(ClassRoomSerializer.Meta):
         fields = ClassRoomSerializer.Meta.fields + ['teachers', 'students']
         read_only_fields = ['teachers', 'students']
+
+    def _get_or_create_teacher(self, teachers, classroom):
+        for teacher in teachers:
+            item_obj, created = Teacher.objects.get_or_create(**teacher)
+
+            classroom.teachers.add(item_obj)
+
+    def _get_or_create_student(self, students, classroom):
+        for student in students:
+            item_obj, created = Student.objects.get_or_create(**student)
+
+            classroom.students.add(item_obj)
+
+    def update(self, instance, validated_data):
+        teachers = validated_data.pop('teachers', None)
+        students = validated_data.pop('students', None)
+
+        if teachers is not None:
+            instance.teachers.clear()
+            self._get_or_create_teacher(teachers, instance)
+
+        if students is not None:
+            instance.students.clear()
+            self._get_or_create_student(students, instance)
+
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+
+        instance.save()
+        return instance
