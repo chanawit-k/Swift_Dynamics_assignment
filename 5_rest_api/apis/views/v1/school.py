@@ -4,12 +4,10 @@ from apis.models import (
     School,
     ClassRoom
 )
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated
 
 
 class SchoolViewSet(viewsets.ModelViewSet):
-    """View for manage recipe APIs."""
+    """View for manage School APIs."""
     serializer_class = serializers.SchoolDetailSerializer
     queryset = School.objects.all()
     filterset_class = filters.SchoolFilter
@@ -22,7 +20,7 @@ class SchoolViewSet(viewsets.ModelViewSet):
 
 
 class ClassRoomViewSet(viewsets.ModelViewSet):
-    """View for managing classroom APIs."""
+    """View for managing Classroom APIs."""
     serializer_class = serializers.ClassRoomDetailSerializer
     queryset = ClassRoom.objects.all()
     filterset_class = filters.ClassRoomFilter

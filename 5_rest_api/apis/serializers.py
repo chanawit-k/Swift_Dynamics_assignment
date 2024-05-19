@@ -72,7 +72,6 @@ class SchoolDetailSerializer(SchoolSerializer):
 
 
 class ClassRoomDetailSerializer(ClassRoomSerializer):
-    """Serializer for School Detail view."""
     teachers = TeacherSerializer(many=True, required=False)
     students = StudentSerializer(many=True, required=False)
 

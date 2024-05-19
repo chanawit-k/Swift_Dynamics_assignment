@@ -1,11 +1,10 @@
-from rest_framework import viewsets, status
-from rest_framework.response import Response
+from rest_framework import viewsets
 from apis import serializers, filters
 from apis.models import Student
 
 
 class StudentViewSet(viewsets.ModelViewSet):
-    """View for managing Student APIs."""
+    """View for managing classroom APIs."""
     serializer_class = serializers.StudentDetailSerializer
     queryset = Student.objects.all()
     filterset_class = filters.StudentFilter

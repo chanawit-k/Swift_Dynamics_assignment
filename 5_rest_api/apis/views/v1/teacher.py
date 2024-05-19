@@ -4,7 +4,7 @@ from apis.models import Teacher
 
 
 class TeacherViewSet(viewsets.ModelViewSet):
-    """View for managing classroom APIs."""
+    """View for managing Teacher APIs."""
     serializer_class = serializers.TeacherDetailSerializer
     queryset = Teacher.objects.all()
     filterset_class = filters.TeacherFilter
