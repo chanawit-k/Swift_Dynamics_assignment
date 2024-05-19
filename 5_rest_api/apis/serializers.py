@@ -73,8 +73,8 @@ class SchoolDetailSerializer(SchoolSerializer):
 
 class ClassRoomDetailSerializer(ClassRoomSerializer):
     """Serializer for School Detail view."""
-    teachers = TeacherSerializer(many=True)
-    students = StudentSerializer(many=True)
+    teachers = TeacherSerializer(many=True, required=False)
+    students = StudentSerializer(many=True, required=False)
 
     class Meta(ClassRoomSerializer.Meta):
         fields = ClassRoomSerializer.Meta.fields + ['teachers', 'students']
