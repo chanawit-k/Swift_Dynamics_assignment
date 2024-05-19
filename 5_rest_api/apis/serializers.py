@@ -16,7 +16,7 @@ class StudentSerializer(serializers.ModelSerializer):
 
 
 class StudentDetailSerializer(StudentSerializer):
-    classroom = ClassRoomSerializer(required=False)
+    classroom = ClassRoomSerializer(required=False, read_only=True)
 
     class Meta(StudentSerializer.Meta):
         fields = StudentSerializer.Meta.fields + ['classroom']
