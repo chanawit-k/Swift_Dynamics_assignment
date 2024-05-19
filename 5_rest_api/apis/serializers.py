@@ -71,6 +71,32 @@ class SchoolDetailSerializer(SchoolSerializer):
                 .count()
 
 
+class SchoolUpdateSerializer(SchoolSerializer):
+    """Serializer for School Detail view."""
+    classrooms = ClassRoomSerializer(many=True, required=False)
+
+    class Meta(SchoolSerializer.Meta):
+        fields = SchoolSerializer.Meta.fields + ['classrooms']
+
+    def _get_or_create_classroom(self, classrooms, school):
+        for classroom in classrooms:
+            item_obj, created = ClassRoom.objects.get_or_create(**classroom)
+
+            school.classrooms.add(item_obj)
+
+    def update(self, instance, validated_data):
+        classrooms = validated_data.pop('classrooms', None)
+        if classrooms is not None:
+            instance.classrooms.clear()
+            self._get_or_create_classroom(classrooms, instance)
+
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+
+        instance.save()
+        return instance
+
+
 class ClassRoomDetailSerializer(ClassRoomSerializer):
     teachers = TeacherSerializer(many=True, required=False)
     students = StudentSerializer(many=True, required=False)

@@ -16,6 +16,8 @@ class SchoolViewSet(viewsets.ModelViewSet):
         """Return the serializer class for request."""
         if self.action == 'list':
             return serializers.SchoolSerializer
+        elif self.action == 'partial_update':
+            return serializers.SchoolUpdateSerializer
         return self.serializer_class
 
 
